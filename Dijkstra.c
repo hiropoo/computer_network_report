@@ -15,7 +15,7 @@ int main(void) {
 
     if ((fp = fopen(fileName, "r")) == NULL) {
         printf("%s : ファイルを開けませんでした\n", fileName);
-        return -1;
+        exit(-1);
     }
 
     // パスの数とノードの数を入力
