@@ -14,12 +14,16 @@ typedef struct {
 // コストテーブルを作成する関数
 void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum, FILE *fp);
 
+// リザルトテーブルを作成する関数
+void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode);
+
 // ダイクストラ法を実行する関数
 void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]);
 
 // リザルトテーブルを表示する関数
 void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]);
 // ----- プロトタイプ宣言ここまで -----
+
 
 int main(void) {
     // ファイルの読み込み
@@ -30,10 +34,12 @@ int main(void) {
         exit(-1);
     }
 
+
     // パスの数とノードの数を入力
     int pathNum = -1;  // パスの数
     int nodeNum = -1;  // ノードの数
     fscanf(fp, "%d %d", &pathNum, &nodeNum);
+
 
     // スタートノードとゴールノードを入力
     int startNode = -1;  // スタートノード
@@ -44,36 +50,29 @@ int main(void) {
         scanf("%d", &startNode);
         printf("ゴール: ");
         scanf("%d", &endNode);
-    } while (startNode < 0 || startNode >= nodeNum || endNode < 0 ||
-             endNode >= nodeNum);
+    } while (startNode < 0 || startNode >= nodeNum || endNode < 0 || endNode >= nodeNum);
+
 
     // コストテーブル（経路表）を作成
     int costTable[nodeNum][nodeNum];  // コストテーブル（経路表）
     makeCostTable(nodeNum, costTable, pathNum, fp);
 
+
     // ダイクストラ法の結果を保存するリザルトテーブルを作成
     NODEINFO resultTable[nodeNum];
-    for (int i = 0; i < nodeNum; i++) {
-        resultTable[i].node = i;
-        resultTable[i].cost = INT_MAX;  // 最初のコストは無限大
-        resultTable[i].isFixed = 0;
+    makeResultTable(nodeNum, resultTable, startNode);
 
-        if (i == startNode) {                   // スタートノードの場合
-            resultTable[i].parent = startNode;  // 親は自分自身
-            resultTable[i].cost = 0;            // スタートノードのコストは0
-            resultTable[i].isFixed = 1;         // スタートノードは確定
-        } else {
-            resultTable[i].parent = -1;
-        }
-    }
 
-    // ダイクストラ法を実行
+    // ダイクストラ法を実行しリザルトテーブルを作成
     ExeDijkstra(nodeNum, costTable, startNode, endNode, resultTable);
 
+
+    // リザルトテーブルの表示
     printResultTable(nodeNum, resultTable);
 
     return 0;
 }
+
 
 // コストテーブル（経路表）を作成する関数
 void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum,
@@ -93,6 +92,25 @@ void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum,
         costTable[dst][src] = cost;
     }
 }
+
+
+// リザルトテーブルを作成する関数
+void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode) {
+    for (int i = 0; i < nodeNum; i++) {
+        resultTable[i].node = i;
+        resultTable[i].cost = INT_MAX;  // 最初のコストは無限大
+        resultTable[i].isFixed = 0;
+
+        if (i == startNode) {                   // スタートノードの場合
+            resultTable[i].parent = startNode;  // 親は自分自身
+            resultTable[i].cost = 0;            // スタートノードのコストは0
+            resultTable[i].isFixed = 1;         // スタートノードは確定
+        } else {
+            resultTable[i].parent = -1;
+        }
+    }
+}
+
 
 // ダイクストラ法を実行する関数
 void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]) {
@@ -123,6 +141,7 @@ void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, in
         src = minimumCostNode;
     } while (!resultTable[endNode].isFixed);  // ゴールノードが確定すると終了
 }
+
 
 // ダイクストラ法を実行した後のリザルトテーブルを表示する関数
 void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]) {
