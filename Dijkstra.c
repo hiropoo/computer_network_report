@@ -4,10 +4,10 @@
 
 // ダイクストラ砲で計算した結果を保存する構造体
 typedef struct {
-    int node;
-    int cost;
-    int parent;
-    int isFixed;
+    int node;       // ノード番号
+    int cost;       // コスト
+    int parent;     // 親ノード番号
+    int isFixed;    // 確定したノードなら1。そうでないなら0
 } NODEINFO;
 
 /* プロトタイプ宣言 */
