@@ -75,8 +75,7 @@ int main(void) {
 
 
 // コストテーブル（経路表）を作成する関数
-void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum,
-                   FILE *fp) {
+void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum, FILE *fp) {
     // コストテーブルの初期化
     for (int i = 0; i < nodeNum; i++)
         for (int j = 0; j < nodeNum; j++) costTable[i][j] = -1;
@@ -84,12 +83,12 @@ void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum,
     // コストテーブル（経路表）の作成
     for (int i = 0; i < pathNum; i++) {
         // 1行（出発点 到着点 かかるコスト）ごと読み取り
-        int src = -1, dst = -1, cost = -1;
-        fscanf(fp, "%d %d %d", &src, &dst, &cost);
+        int srcNode = -1, dstNode = -1, cost = -1;
+        fscanf(fp, "%d %d %d", &srcNode, &dstNode, &cost);
 
         // 表にコストを記入。出発点と到着点が逆の場合も記入する
-        costTable[src][dst] = cost;
-        costTable[dst][src] = cost;
+        costTable[srcNode][dstNode] = cost;
+        costTable[dstNode][srcNode] = cost;
     }
 }
 
@@ -114,31 +113,32 @@ void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode) 
 
 // ダイクストラ法を実行する関数
 void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]) {
-    int src = startNode;    // 出発ノード
+    int srcNode = startNode;    // 出発ノード
     do {
-        for (int i = 0; i < nodeNum; i++) {
-            // ノードiまでのコスト = ノードsrcからノードiまでのコスト + スタートノードからノードsrcまでのコスト
-            int costToNode_i = costTable[src][i] + resultTable[src].cost;
-
-            // コストテーブルのコストが０より大きく（経路がある）、現在のリザルトコストより小さい場合はコストを更新
-            if (costTable[src][i] > 0 && costToNode_i < resultTable[i].cost) {
-                resultTable[i].cost = costToNode_i;
-                resultTable[i].parent = src;
-            }
-        }
-
         int minimumCostNode = -1;   // 確定していない中で最小のコストのノード
         int minimumCost = INT_MAX;  // 最小のコスト
-
+        
         for (int i = 0; i < nodeNum; i++) {
+            // ノードiまでのコスト = ノードsrcからノードiまでのコスト + スタートノードからノードsrcまでのコスト
+            int costToNode_i = costTable[srcNode][i] + resultTable[srcNode].cost;
+
+            // コストテーブルのコストが０より大きく（経路がある）、現在のリザルトコストより小さい場合はコストを更新
+            if (costTable[srcNode][i] > 0 && costToNode_i < resultTable[i].cost) {
+                resultTable[i].cost = costToNode_i;
+                resultTable[i].parent = srcNode;
+            }
+            
+            // 確定していないノードの中でコストが最小のノードを検索
             if (!resultTable[i].isFixed && resultTable[i].cost < minimumCost) {
                 minimumCost = resultTable[i].cost;
                 minimumCostNode = i;
             }
         }
 
+        // 確定していないノードの中でコストが最小のノードを確定させて次の出発ノードに選択
         resultTable[minimumCostNode].isFixed = 1;
-        src = minimumCostNode;
+        srcNode = minimumCostNode;
+        
     } while (!resultTable[endNode].isFixed);  // ゴールノードが確定すると終了
 }
 
