@@ -20,7 +20,7 @@ void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum, FI
 void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode);
 
 // ダイクストラ法を実行する関数
-void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]);
+void exeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]);
 
 // 結果（最短経路と総コスト）を表示する関数
 void printResult(NODEINFO resultTable[], int srcNode, int dstNode);
@@ -70,11 +70,11 @@ int main(void) {
 
 
     // ダイクストラ法を実行しリザルトテーブルを作成
-    ExeDijkstra(nodeNum, costTable, startNode, endNode, resultTable);
+    exeDijkstra(nodeNum, costTable, startNode, endNode, resultTable);
 
 
     // リザルトテーブルの表示（デバッグ）
-    // printResultTable(nodeNum, resultTable);
+    printResultTable(nodeNum, resultTable);
 
 
     // 結果（最短経路と総コスト）の表示
@@ -124,7 +124,7 @@ void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode) 
 
 
 // ダイクストラ法を実行する関数
-void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]) {
+void exeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]) {
     int srcNode = startNode;    // 出発ノード
     do {
         int minimumCostNode = -1;   // 確定していない中で最小のコストのノード

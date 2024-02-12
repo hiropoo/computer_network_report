@@ -50,7 +50,7 @@ void makeCostTable(int nodeNum, int costTable[nodeNum][nodeNum], int pathNum, FI
 void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode);
 
 // ダイクストラ法を実行する関数
-void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]);
+void exeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]);
 
 // 結果（最短経路と総コスト）を表示する関数
 void printResult(NODEINFO resultTable[], int srcNode, int dstNode);
@@ -100,7 +100,7 @@ int main(void) {
 
 
     // ダイクストラ法を実行しリザルトテーブルを作成
-    ExeDijkstra(nodeNum, costTable, startNode, endNode, resultTable);
+    exeDijkstra(nodeNum, costTable, startNode, endNode, resultTable);
 
 
     // リザルトテーブルの表示（デバッグ）
@@ -154,7 +154,7 @@ void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode) 
 
 
 // ダイクストラ法を実行する関数
-void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]) {
+void exeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]) {
     int srcNode = startNode;    // 出発ノード
     do {
         int minimumCostNode = -1;   // 確定していない中で最小のコストのノード
@@ -215,8 +215,6 @@ void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]) {
 
 <div style="page-break-before:always"></div>
 
-<br>
-<br>
 
 ### プログラムの説明
 #### プログラムの概要
@@ -243,16 +241,39 @@ void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]) {
 <br>
 
 #### コストテーブルについて
-コストテーブルは経路とそのコストをデータファイルから読み込み保存する表のことである。具体的には次の表のようなものを二次元配列`int costTable[nodeNum][nodeNum]`で表現する。ただし、表の中で経路が存在しない要素については初期値-1を与えた。また、この表の作成は関数`makeCostTable()`が行う。
+コストテーブルは経路とそのコストをデータファイルから読み込み保存する表のことである。具体的には次の図中の表を二次元配列`int costTable[nodeNum][nodeNum]`で表現する。ただし、表の中で経路が存在しない要素については初期値`-1`を与えた。また、この表の作成は関数`makeCostTable()`が行う。
 
 ![alt](images/costTable.drawio.svg)
 
 <br>
 
 #### リザルトテーブルについて
+リザルトテーブルは、ダイクストラ法を実行した結果を保存する表のことである。具体的には次の図中の表を構造体配列で表現する。このリザルトテーブルの作成には、関数`makeResultTable()`で行うが、スタートノードについては初期値として、親を自分自身のノード番号、コストを0、確定フラグを1に設定する。下記の表は、スタートノードをA（0）、ゴールノードをF（5）に設定した際にダイクストラ法を実施した場合の途中結果を示す。ただしプログラムにおいて、コストの∞は定数`INT_MAX`で、親ノードの未定は`-1`で表現した。
+
+![alt](images/resultTable.drawio.svg)
+
+```C
+// ダイクストラ砲で計算した結果を保存する構造体
+typedef struct {
+    int node;       // ノード番号
+    int cost;       // コスト
+    int parent;     // 親ノード番号
+    int isFixed;    // 確定したノードなら1。そうでないなら0
+} NODEINFO;
+
+NODEINFO resultTable[nodeNum];
+```
+
+<br>
+
+#### ダイクストラ法の実行について
+用意したコストテーブルやリザルトテーブルを用いてダイクストラ法を実際に行う処理は、関数`exeDijkstra()`に記述した。この関数では次のようなアルゴリズムに基づいてダイクストラ法を実行する。
+1. 
+
 
 
 <br>
+
 
 ### 実行結果
 
