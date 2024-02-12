@@ -51,12 +51,13 @@ int main(void) {
     int endNode = -1;    // ゴールノード
     do {
         printf("スタートノードとゴールノードを入力してください\n");
+        printf("A: 0, B: 1, C: 2, D: 3, E: 4, F: 5\n");
         printf("スタート: ");
         scanf("%d", &startNode);
         printf("ゴール: ");
         scanf("%d", &endNode);
+        printf("\n");
     } while (startNode < 0 || startNode >= nodeNum || endNode < 0 || endNode >= nodeNum);
-
 
     // コストテーブル（経路表）を作成
     int costTable[nodeNum][nodeNum];  // コストテーブル（経路表）
