@@ -20,10 +20,12 @@ void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode);
 // ダイクストラ法を実行する関数
 void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]);
 
-// リザルトテーブルを表示する関数
+// 結果（最短経路と総コスト）を表示する関数
+void printResult(NODEINFO resultTable[], int srcNode, int dstNode);
+
+// リザルトテーブルを表示する関数（デバッグ用）
 void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]);
 // ----- プロトタイプ宣言ここまで -----
-
 
 int main(void) {
     // ファイルの読み込み
@@ -67,11 +69,17 @@ int main(void) {
     ExeDijkstra(nodeNum, costTable, startNode, endNode, resultTable);
 
 
-    // リザルトテーブルの表示
-    printResultTable(nodeNum, resultTable);
+    // リザルトテーブルの表示（デバッグ）
+    // printResultTable(nodeNum, resultTable);
+
+
+    // 結果（最短経路と総コスト）の表示
+    printResult(resultTable, startNode, endNode);
+    printf("\n総コスト: %d\n", resultTable[endNode].cost);
 
     return 0;
 }
+
 
 
 // コストテーブル（経路表）を作成する関数
@@ -138,12 +146,28 @@ void ExeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, in
         // 確定していないノードの中でコストが最小のノードを確定させて次の出発ノードに選択
         resultTable[minimumCostNode].isFixed = 1;
         srcNode = minimumCostNode;
-        
+
     } while (!resultTable[endNode].isFixed);  // ゴールノードが確定すると終了
 }
 
 
-// ダイクストラ法を実行した後のリザルトテーブルを表示する関数
+// 結果（最短経路と総コスト）を表示する関数
+void printResult(NODEINFO resultTable[], int srcNode, int dstNode) {
+    // 親ノードがスタートノードと一致しない場合
+    if(resultTable[dstNode].parent != srcNode) {
+        printResult(resultTable, srcNode, resultTable[dstNode].parent);
+    } 
+    // 親ノードがスタートノードである場合はそのノードはスタートノードなのでノード名を出力（再帰処理の終了）
+    else {
+        printf("%c", 'A' + srcNode);
+    }
+    // 現在のノードから次に訪れるノードを出力
+    printf(" -> %c", 'A' + resultTable[dstNode].node);
+}
+
+
+
+// // ダイクストラ法を実行した後のリザルトテーブルを表示する関数（デバッグ用）
 void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]) {
     // リザルトテーブルを表示
     printf("ノード | コスト | 親ノード\n");
