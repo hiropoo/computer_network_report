@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 // ダイクストラ砲で計算した結果を保存する構造体
 typedef struct {
     int node;       // ノード番号
@@ -9,6 +10,7 @@ typedef struct {
     int parent;     // 親ノード番号
     int isFixed;    // 確定したノードなら1。そうでないなら0
 } NODEINFO;
+
 
 /* プロトタイプ宣言 */
 // コストテーブルを作成する関数
@@ -26,6 +28,7 @@ void printResult(NODEINFO resultTable[], int srcNode, int dstNode);
 // リザルトテーブルを表示する関数（デバッグ用）
 void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]);
 // ----- プロトタイプ宣言ここまで -----
+
 
 int main(void) {
     // ファイルの読み込み
@@ -166,8 +169,7 @@ void printResult(NODEINFO resultTable[], int srcNode, int dstNode) {
 }
 
 
-
-// // ダイクストラ法を実行した後のリザルトテーブルを表示する関数（デバッグ用）
+// ダイクストラ法を実行した後のリザルトテーブルを表示する関数（デバッグ用）
 void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]) {
     // リザルトテーブルを表示
     printf("ノード | コスト | 親ノード\n");
