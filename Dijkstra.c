@@ -32,7 +32,7 @@ void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]);
 
 int main(void) {
     // ファイルの読み込み
-    char fileName[] = "my_NodePath_1.txt";  // ファイル名
+    char fileName[] = "my_NodePath_2.txt";  // ファイル名
     FILE *fp = NULL;                           // ファイルポインタ
     if ((fp = fopen(fileName, "r")) == NULL) {
         printf("%s : ファイルを開けませんでした\n", fileName);
