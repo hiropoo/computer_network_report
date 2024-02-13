@@ -52,8 +52,8 @@ void makeResultTable(int nodeNum, NODEINFO resultTable[nodeNum], int startNode);
 // ダイクストラ法を実行する関数
 void exeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, int endNode, NODEINFO resultTable[nodeNum]);
 
-// 結果（最短経路と総コスト）を表示する関数
-void printResult(NODEINFO resultTable[], int srcNode, int dstNode);
+// 結果（最短経路）を表示する関数
+void printResult(NODEINFO resultTable[], int startNode, int dstNode);
 
 // リザルトテーブルを表示する関数（デバッグ用）
 void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]);
@@ -185,15 +185,15 @@ void exeDijkstra(int nodeNum, int costTable[nodeNum][nodeNum], int startNode, in
 }
 
 
-// 結果（最短経路と総コスト）を表示する関数
-void printResult(NODEINFO resultTable[], int srcNode, int dstNode) {
+// 結果（最短経路）を表示する関数
+void printResult(NODEINFO resultTable[], int startNode, int dstNode) {
     // 親ノードがスタートノードと一致しない場合
-    if(resultTable[dstNode].parent != srcNode) {
-        printResult(resultTable, srcNode, resultTable[dstNode].parent);
+    if(resultTable[dstNode].parent != startNode) {
+        printResult(resultTable, startNode, resultTable[dstNode].parent);
     } 
     // 親ノードがスタートノードである場合はそのノードはスタートノードなのでノード名を出力（再帰処理の終了）
     else {
-        printf("%c", 'A' + srcNode);
+        printf("%c", 'A' + startNode);
     }
     // 現在のノードから次に訪れるノードを出力
     printf(" -> %c", 'A' + resultTable[dstNode].node);
@@ -268,16 +268,66 @@ NODEINFO resultTable[nodeNum];
 
 #### ダイクストラ法の実行について
 用意したコストテーブルやリザルトテーブルを用いてダイクストラ法を実際に行う処理は、関数`exeDijkstra()`に記述した。この関数では次のようなアルゴリズムに基づいてダイクストラ法を実行する。
-1. 
 
+1. スタートノードを出発ノードとして設定する
+2. リザルトテーブルを用いて、スタートノードから出発ノードまでのコストを求める
+3. コストテーブルを用いて、出発ノードから各ノードまでのコストを求める
+4. 2, 3で読み取ったコストの和（スタートノードから出発ノードを通り次のノードに行くまでにかかるコスト）を求める
+5. 4で得たコストとがリザルトテーブルのコストより小さければリザルトテーブルのコストを更新する
+6. リザルトテーブルの確定していないノードの中でコストが最小のノードを確定させて次の出発ノードに選択する
+7. 1 ~ 6をゴールノードが確定するまで繰り返す
 
+ここで、２のスタートノードから出発ノードまでのコストに関しては、リザルトテーブルを用いて簡単に計算できる。なぜなら、出発ノードは必ず確定ノードであるため、リザルトテーブルのコストの欄に、スタートノードからの最小コストが記載されているからである。また、５の処理については、コストテーブルのコストが-1（経路が存在しない）の場合は計算を行わないようにしている。
 
 <br>
 
 
+#### 最短経路の表示について
+ダイクストラ法を実行した後に、求めた最短経路を表示する処理は、関数`printResult()`に記述した。経路はスタートノードからゴールノードまでの経路を表示したい。しかし、リザルトテーブルからはゴールノードからスタートノードの順（逆順）に経路が判明する。そこで、再起処理を用いて次のようなアルゴリズムを組むことで、スタートノードからゴールノードの順に最短経路を表示した。
+
+1. 到着ノード（最初の呼び出しではゴールノード）の親ノードがスタートノードと一致するかどうかを確認
+2. 一致しない場合、関数は自身を再帰的に呼び出し、到着ノードの親ノードを新たな到着ノードとしてパスをたどる
+3. 親ノードが到着ノードと一致する場合、つまり現在のノードがスタートノードである場合、そのノードを表示する
+4. 最後に、現在のノードから次に訪れるノードの名前を表示する
+
+![alt](images/result_ex.drawio.svg)
+
+<br>
+
 ### 実行結果
+#### `example_NodePath.txt`を用いて、プログラムを実行した結果
+* スタートノード: 0（A）, ゴールノード: 5（F）とした場合
+![](images/result1_1.png)
+* スタートノード: 5（F）, ゴールノード: 2（C）とした場合   
+![](images/result1_2.png)
 
+<br>
 
+#### `my_NodePath_1.txt`を用いて、プログラムを実行した結果
+
+`my_NodePath_1.txt`
+``` txt
+17 15
+0 1 5
+0 2 3
+1 3 2
+1 4 6
+2 5 4
+2 6 9
+3 7 1
+4 8 3
+5 9 7
+6 10 2
+7 11 4
+8 12 6
+9 13 8
+10 14 5
+11 14 3
+12 14 2
+13 14 4
+```
+* スタートノード: 0（A）, ゴールノード: 14（O）とした場合
+![](images/result1_3.png)
 
 ### 考察
 
