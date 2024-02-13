@@ -296,6 +296,9 @@ NODEINFO resultTable[nodeNum];
 
 ### 実行結果
 #### `example_NodePath.txt`を用いて、プログラムを実行した結果
+
+![alt](images/ex_Node.drawio.svg)
+
 * スタートノード: 0（A）, ゴールノード: 5（F）とした場合
 ![](images/result1_1.png)
 * スタートノード: 5（F）, ゴールノード: 2（C）とした場合   
@@ -326,8 +329,14 @@ NODEINFO resultTable[nodeNum];
 12 14 2
 13 14 4
 ```
+
+
+![alt](images/my_Node1.drawio.svg)
+
 * スタートノード: 0（A）, ゴールノード: 14（O）とした場合
 ![](images/result1_3.png)
+
+<br>
 
 #### `my_NodePath_2.txt`を用いて、プログラムを実行した結果
 
@@ -356,8 +365,12 @@ NODEINFO resultTable[nodeNum];
 13 14 4
 ```
 
+![alt](images/my_Node2.drawio.svg)
+
 * スタートノード: 0（A）, ゴールノード: 14（O）とした場合
 ![](images/result1_4.png)
+
+<br>
 
 ### 考察
 
