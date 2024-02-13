@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-// ダイクストラ砲で計算した結果を保存する構造体
+// ダイクストラ法で計算した結果を保存する構造体
 typedef struct {
     int node;       // ノード番号
     int cost;       // コスト
