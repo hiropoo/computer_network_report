@@ -295,7 +295,7 @@ NODEINFO resultTable[nodeNum];
 <br>
 
 ### 実行結果
-#### `example_NodePath.txt`を用いて、プログラムを実行した結果
+#### ・`example_NodePath.txt`を用いて、プログラムを実行した結果
 
 ![alt](images/ex_Node.drawio.svg)
 
@@ -306,7 +306,7 @@ NODEINFO resultTable[nodeNum];
 
 <br>
 
-#### `my_NodePath_1.txt`を用いて、プログラムを実行した結果
+#### ・`my_NodePath_1.txt`を用いて、プログラムを実行した結果
 
 `my_NodePath_1.txt`
 ``` txt
@@ -338,7 +338,7 @@ NODEINFO resultTable[nodeNum];
 
 <br>
 
-#### `my_NodePath_2.txt`を用いて、プログラムを実行した結果
+#### ・`my_NodePath_2.txt`を用いて、プログラムを実行した結果
 
 `my_NodePath_2.txt`
 ``` txt
