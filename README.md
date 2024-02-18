@@ -220,7 +220,11 @@ void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]) {
 #### プログラムの概要
 ダイクストラ法に基づいて最短経路問題を解くプログラムを作成した。ただし、グラフが次のように与えられた際、そのグラフをもとに次のようなパラメータを持つデータ形式（txtファイル）でグラフを表現する。
 
+<section style="text-align: center;">
+
 ![alt](images/keiro_ex.drawio.svg)
+
+</section>
 
 プログラムは主に次の手順で処理を行う。
 1. 経路データのテキストファイルの読み込み
@@ -243,14 +247,22 @@ void printResultTable(int nodeNum, NODEINFO resultTable[nodeNum]) {
 #### コストテーブルについて
 コストテーブルは経路とそのコストをデータファイルから読み込み保存する表のことである。具体的には次の図中の表を二次元配列`int costTable[nodeNum][nodeNum]`で表現する。ただし、表の中で経路が存在しない要素については初期値`-1`を与えた。また、この表の作成は関数`makeCostTable()`が行う。
 
+<section style="text-align: center;">
+
 ![alt](images/costTable.drawio.svg)
+
+</section>
 
 <br>
 
 #### リザルトテーブルについて
 リザルトテーブルは、ダイクストラ法を実行した結果を保存する表のことである。具体的には次の図中の表を構造体配列で表現する。このリザルトテーブルの作成には、関数`makeResultTable()`で行うが、スタートノードについては初期値として、親を自分自身のノード番号、コストを0、確定フラグを1に設定する。下記の表は、スタートノードをA（0）、ゴールノードをF（5）に設定した際にダイクストラ法を実施した場合の途中結果を示す。ただしプログラムにおいて、コストの∞は定数`INT_MAX`で、親ノードの未定は`-1`で表現した。
 
+<section style="text-align: center;">
+
 ![alt](images/resultTable.drawio.svg)
+
+</section>
 
 ```C
 // ダイクストラ砲で計算した結果を保存する構造体
@@ -290,7 +302,11 @@ NODEINFO resultTable[nodeNum];
 3. 親ノードが到着ノードと一致する場合、つまり現在のノードがスタートノードである場合、そのノードを表示する
 4. 最後に、現在のノードから次に訪れるノードの名前を表示する
 
+<section style="text-align: center;">
+
 ![alt](images/result_ex.drawio.svg)
+
+</section>
 
 <br>
 
@@ -300,7 +316,11 @@ NODEINFO resultTable[nodeNum];
 ### 実行結果
 #### ・`example_NodePath.txt`を用いて、プログラムを実行した結果
 
+<section style="text-align: center;">
+
 ![alt](images/ex_Node.drawio.svg)
+
+</section>
 
 * スタートノード: 0（A）, ゴールノード: 5（F）とした場合
 ![](images/result1_1.png)
@@ -333,8 +353,11 @@ NODEINFO resultTable[nodeNum];
 13 14 4
 ```
 
+<section style="text-align: center;">
 
 ![alt](images/my_Node1.drawio.svg)
+
+</section>
 
 * スタートノード: 0（A）, ゴールノード: 14（O）とした場合
 ![](images/result1_3.png)
@@ -368,10 +391,19 @@ NODEINFO resultTable[nodeNum];
 13 14 4
 ```
 
+<section style="text-align: center;">
+
 ![alt](images/my_Node2.drawio.svg)
 
+</section>
+
 * スタートノード: 0（A）, ゴールノード: 14（O）とした場合
+
+<section style="text-align: center;">
+
 ![](images/result1_4.png)
+
+</section>
 
 <br>
 
@@ -389,6 +421,9 @@ NODEINFO resultTable[nodeNum];
 <br>
 
 ---
+
+<div style="page-break-before:always"></div>
+
 
 ## 課題2　CRC（Cyclic Redundancy Check）による誤り検出プログラムの作成
 ### ソースファイル
@@ -492,7 +527,9 @@ void printResult(unsigned short data[], int data_length) {
 }
 ```
 
-<br>
+
+<div style="page-break-before:always"></div>
+
 
 ### プログラムの説明
 #### プログラムの概要
@@ -508,17 +545,29 @@ CRCの計算は、関数`exeCRC()`で行う。CRCの計算自体は、単純に�
 
 この処理をビット列が端になるまで繰り返すことで、最終的には余りが求まる。簡単な例でためしてみると、次のようになる（ただし実際には元のデータ系列自体が余り（CRC）になる可能性を防ぐために(生成多項式の桁数-1)分だけ元データの右端に0を付加する）。
 
+<section style="text-align: center;">
+
 ![alt](images/crc_ex.drawio.svg)
+
+</section>
 
 ただしこの方法には問題がある。それは、このアルゴリズム通りに計算しようとすると、割られるデータ系列全体を保存する変数が必要となることである。実際には、例で示した7bit程度ではなく10000bitのような大きなデータ系列を扱う必要がある。そうなるとメモリの大きさを考えるとこの方法では実装不可能である。
 
 そこで実際のCRCの計算では、（生成多項式の桁数-1）ビットだけ保存する変数を用意し、その変数の大きさごとに元のデータ系列を分割することで計算を行う。この方法を用いることで、メモリの使用量を抑えつつ、CRCの計算を行うことができる。アルゴリズムとしては次の図ようになる。
 
+<section style="text-align: center;">
+
 ![alt](images/crc_ex_2.drawio.svg)
+
+</section>
 
 これにより（生成多項式の桁数-1）ごとに元のデータ系列を分割しても、余り（CRC）を求めることができるようになった。ただし実際のプログラムでは、除算を行う際に先頭のビットの1は必ず消えるためXORの計算に含める必要がない。よって割られるデータ系列の先頭ビットが1の場合は、その先頭ビットを除くビット列でXORを計算するように工夫した。
 
+<section style="text-align: center;">
+
 ![alt](images/crc_ex_3.drawio.svg)
+
+</section>
 
 <br>
 
@@ -527,7 +576,6 @@ CRCの計算は、関数`exeCRC()`で行う。CRCの計算自体は、単純に�
 
 プログラムでは、元のデータ系列に対してCRCを計算して付加した新たなデータ系列を用意する。そしてその新たなデータ系列に対してこの処理を行う。ただし、関数`exeCRC()`での説明でも述べたように、この関数は除算を行う関数でもある。よってこの関数を再利用することで、データ系列の誤り検出を行うことができる。
 
-<br>
 
 ### 実行結果
 * データ系列`0x1111 0x2222 0x3333 0x4444`に対して実行した結果
@@ -538,11 +586,14 @@ CRCの計算は、関数`exeCRC()`で行う。CRCの計算自体は、単純に�
 
 ![](images/result2_2.png)
 
+<br>
+
 
 ### 考察
-工夫した点として、プログラムの説明でも述べたように、CRCの計算アルゴリズムにおいて、メモリの使用量を抑えるために（生成多項式の桁数-1）ごとに元のデータ系列を分割して計算を行うことができるようにした。この工夫により、大きなデータ系列に対してもCRCの計算を行うことができるようになった。また、XORの計算で必要のない先頭ビットの計算を省略することで、計算量やリソースの使用量を抑えることができた。
+工夫した点として、プログラムの説明でも述べたように、CRCの計算アルゴリズムにおいて、メモリの使用量を抑えるために（生成多項式の桁数-1）ビットごとに元のデータ系列を分割して計算を行うことができるようにした。この工夫により、大きなデータ系列に対してもCRCの計算を行うことができるようになった。また、XORの計算で必要のない先頭ビットの計算を省略することで、計算量やリソースの使用量を抑えることができた。
 
 改善点として、今回のプログラムではデータ系列をコード内で直接定義しているが、実際のデータ系列はファイルから読み込むことが多い。そのため、ファイルからデータ系列を読み込む処理を追加することでより良いプログラムとなると考えた。また、講義で生成多項式は(x+1)を因数にもつものを用いることが多いと学んだ。これは、生成多項式が(x+1)を因数に持つことで、受信側は除算より単純なパリティ検査をすることで誤り検出を行うことができるためである。そのため、生成多項式を(x+1)を因数に持つものに変更することで、より効率的なプログラムとなると考えた。
+
 <br>
 
 
